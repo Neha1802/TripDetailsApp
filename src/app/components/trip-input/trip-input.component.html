@@ -1,0 +1,40 @@
+<div class="trip-input">
+  <label for="start">Start :</label>
+  <input type="text" id="start" [(ngModel)]="newTrip.start" />
+
+  <label for="end">End :</label>
+  <input type="text" id="end" [(ngModel)]="newTrip.end" />
+
+  <button (click)="addTrip()">Add Trip</button>
+</div>
+
+<div class="timeline-container">
+  <div
+    *ngFor="let trip of trips; let i = index"
+    class="trip-segment"
+    [ngClass]="getTripPosition(i)"
+  >
+    <img
+      *ngIf="getTripPosition(i) === 'level-2' && i > 0"
+      src="/levelcurve.png"
+      alt="Curve Connector"
+      class="curve-connector-image"
+    />
+    <div class="location start" [attr.data-label]="trip.start.toUpperCase()">
+      {{ getFirstThreeChars(trip.start) }}
+    </div>
+    <div
+      class="line"
+      [ngClass]="{ continued: isContinuedTrip(i), arrow: shouldShowArrow(i) }"
+    ></div>
+    <div class="location end" [attr.data-label]="trip.end.toUpperCase()">
+      {{ getFirstThreeChars(trip.end) }}
+      <img
+        *ngIf="getTripPosition(i) === 'level-2' && i < trips.length - 1"
+        src="/levelcurveend.png"
+        alt="Curve Connector End"
+        class="curve-connector-end"
+      />
+    </div>
+  </div>
+</div>
